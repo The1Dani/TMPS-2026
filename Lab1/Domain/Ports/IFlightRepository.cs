@@ -1,9 +1,11 @@
-namespace airport_manager;
+namespace airport_manager.Domain;
 
 public interface IFlightRepository
 {
     void Add(Flight flight);
     Flight? Get(string number);
-    List<Flight> GetAll();
-    List<Flight> GetByAirline(string airline);
+    IReadOnlyList<Flight> GetAll();
+    IReadOnlyList<Flight> GetByAirline(string airline);
+    void Update(Flight flight);
+    IReadOnlyList<Flight> GetActive();
 }

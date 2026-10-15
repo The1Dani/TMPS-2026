@@ -11,7 +11,10 @@ build:
 run: build
 	./$(APP)$(EXT)
 
+tui: build
+	./$(APP)$(EXT) --tui
+
 clean:
 	rm -rf bin obj publish $(APP) $(APP).exe
 
-.PHONY: build run clean
+.PHONY: build run tui clean

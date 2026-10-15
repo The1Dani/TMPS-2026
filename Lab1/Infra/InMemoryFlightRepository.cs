@@ -1,4 +1,4 @@
-namespace airport_manager.Infra;
+namespace airport_manager.Domain.Infra;
 
 public class InMemoryFlightRepository : IFlightRepository
 {
@@ -11,13 +11,24 @@ public class InMemoryFlightRepository : IFlightRepository
         return _store.GetValueOrDefault(number);
     }
 
-    public List<Flight> GetAll()
+    public IReadOnlyList<Flight> GetAll()
     {
-        return _store.Values.ToList();
+        return _store.Values.ToList().AsReadOnly();
     }
 
-    public List<Flight> GetByAirline(string airline)
+    public IReadOnlyList<Flight> GetByAirline(string airline)
     {
-        return _store.Values.Where(x => x.Airline == airline).ToList();
+        return _store.Values.Where(x => x.Airline == airline).ToList().AsReadOnly();
+    }
+
+    public void Update(Flight flight)
+    {
+        _store[flight.Number] = flight;
+    }
+
+    public IReadOnlyList<Flight> GetActive()
+    {
+        var all = GetAll();
+        return all.Where(x => x.IsActive).ToList();
     }
 }

@@ -1,8 +1,9 @@
-﻿using airport_manager.Infra;
+﻿using airport_manager.Domain.Infra;
+using airport_manager.Domain.UI;
 using airport_manager.Services;
-using airport_manager.UI;
+using airport_manager.UI.Tui;
 
-namespace airport_manager
+namespace airport_manager.App
 
 {
     internal static class Program
@@ -10,33 +11,25 @@ namespace airport_manager
         private static void Main(string[] args)
         {
             var eventBus = new EventBus();
-            _ = new ConsoleWriter(eventBus);
-
-            var flightService = new FlightService(new InMemoryFlightRepository(), eventBus);
-
-
-            for (;;)
+            var flightService =
+                new FlightService(new InMemoryFlightRepository(), new GateAllocator(["A1", "A2"]), eventBus);
+            var flightSim = new FlightSimulator(flightService, new Random(42), DateTime.Today.AddHours(6));
+            
+            if (args.Contains("--tui"))
             {
-                var delay = Random.Shared.Next(500, 1000);
-                var flightNumber = Random.Shared.Next(50, 100);
-                Thread.Sleep(delay);
-                try
-                {
-                    flightService.ScheduleFlight(new Flight(
-                        $"{flightNumber}",
-                        "THY",
-                        "IST",
-                        "",
-                        DateTime.Now,
-                        TimeSpan.FromMilliseconds(delay)
-                    ));
-                }
-                catch
-                {
-                    Console.WriteLine($"Simulation has ended. Winner: {flightNumber}");
-                    break;
-                }
+                var dashboard = new DashboardState();
+                eventBus.Sub(dashboard);
+                new TuiApp(flightSim, dashboard).Run();
+                return;
             }
+            else
+            {
+                var consoleWriter = new ConsoleWriter();
+                eventBus.Sub(consoleWriter);
+            }
+
+            
+            flightSim.Run();
         }
     }
 }
