@@ -12,8 +12,8 @@ namespace airport_manager.App
         {
             var eventBus = new EventBus();
             var flightService =
-                new FlightService(new InMemoryFlightRepository(), new GateAllocator(["A1", "A2"]), eventBus);
-            var flightSim = new FlightSimulator(flightService, new Random(42), DateTime.Today.AddHours(6));
+                new FlightService(new InMemoryFlightRepository(), new GateAllocator(["A1", "A2", "A3", "A4"]), eventBus);
+            var flightSim = new FlightSimulator(flightService, new Random((int)DateTime.Now.ToBinary()), DateTime.Today.AddHours(6));
             
             if (args.Contains("--tui"))
             {

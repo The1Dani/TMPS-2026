@@ -40,6 +40,16 @@ public record Flight(
         return this with { Delay = Delay + delay, Status = FlightStatus.Delayed};
     }
 
+    public Flight ReleaseGate()
+    {
+        if (Status is not (FlightStatus.Departed or FlightStatus.Cancelled))
+        {
+            throw new InvalidOperationException($"{this.ToString()} cannot release gate while {Status}");
+        }
+
+        return this with { Gate = null };
+    }
+
     public Flight Depart(DateTime now)
     {
         if (Status != FlightStatus.Boarding)

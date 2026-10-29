@@ -25,6 +25,7 @@ public class FlightService(IFlightRepository repo, GateAllocator gates, IEventSi
     {
         var departed = GetExisting(number).Depart(now);
         gates.Release(departed.Gate!);
+        departed = departed.ReleaseGate();
         repo.Update(departed);
         eventSink.Pub(new FlightDeparted(departed, now));
     }

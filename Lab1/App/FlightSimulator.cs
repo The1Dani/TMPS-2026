@@ -16,7 +16,7 @@ public class FlightSimulator(FlightService fs, Random random, DateTime start) : 
     
     private static readonly TimeSpan BoardingWindow = TimeSpan.FromMinutes(40);
     
-    private const double TroubleChance = 0.02;
+    private const double TroubleChance = 0.02 / 60;
     private static readonly TimeSpan MaxDelay = TimeSpan.FromHours(3);
     public void Tick()
     {

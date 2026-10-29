@@ -23,7 +23,7 @@ public static class DashboardRenderer
     {
         var status = paused ? "[yellow]PAUSED[/]" : "[green]RUNNING[/]";
         return new Panel(new Markup(
-                $"[bold]IST Airport[/]  {now:HH:mm}  {status}  speed {speed}  [grey]space pause · +/- speed · q quit[/]"))
+                $"[bold]LUK Airport[/]  {now:HH:mm}  {status}  speed {speed}  [grey]space pause · +/- speed · q quit[/]"))
             .Expand();
     }
 
@@ -85,5 +85,5 @@ public static class DashboardRenderer
         _ => e.GetType().Name
     };
 
-    private static string Code(Flight flight) => $"{flight.Airline}{flight.Number}";
+    private static string Code(Flight flight) => $"{flight.Number}";
 }
