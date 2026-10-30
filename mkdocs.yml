@@ -1,0 +1,39 @@
+site_name: TMPS Lab Reports
+docs_dir: reports
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+
+extra_css:
+  - assets/uml.css
+
+extra_javascript:
+  - path: assets/uml.js
+    type: module
+
+nav:
+  - REPORT_1.md
+  - REPORT_2.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: uml
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - admonition
+  - tables

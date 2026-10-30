@@ -1,4 +1,7 @@
-namespace airport_manager.Domain.Infra;
+using airport_manager.Domain.Ports;
+using airport_manager.Domain;
+
+namespace airport_manager.Infra;
 
 public class EventBus : IEventSink
 {

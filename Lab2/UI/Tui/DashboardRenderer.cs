@@ -30,13 +30,14 @@ public static class DashboardRenderer
     private static Panel Board(IEnumerable<Flight> flights)
     {
         var table = new Table().Expand()
-            .AddColumn("Flight").AddColumn("To").AddColumn("Scheduled")
+            .AddColumn("Flight").AddColumn("Type").AddColumn("To").AddColumn("Scheduled")
             .AddColumn("Expected").AddColumn("Actual Departure").AddColumn("Gate").AddColumn("Status");
 
         foreach (var flight in flights.OrderBy(f => f.ExpectedDepartureTime))
         {
             table.AddRow(
                 Markup.Escape(Code(flight)),
+                TypeMarkup(flight.Type),
                 Markup.Escape(flight.Destination),
                 flight.DepartureTime.ToString("HH:mm"),
                 ExpectedMarkup(flight),
@@ -68,6 +69,13 @@ public static class DashboardRenderer
         _ => status.ToString()
     };
 
+    private static string TypeMarkup(FlightType type) => type switch
+    {
+        FlightType.Cargo => "[orange1]Cargo[/]",
+        FlightType.Charter => "[aqua]Charter[/]",
+        _ => type.ToString()
+    };
+
     private static Panel Log(IEnumerable<AirportEvent> events)
     {
         var lines = events.Reverse().Select(e =>
@@ -77,7 +85,7 @@ public static class DashboardRenderer
 
     private static string Describe(AirportEvent e) => e switch
     {
-        FlightScheduled s => $"{Code(s.Flight)} scheduled to {s.Flight.Destination} at {s.Flight.DepartureTime:HH:mm}",
+        FlightScheduled s => $"{Code(s.Flight)} ({s.Flight.Type.ToString().ToLower()}) scheduled to {s.Flight.Destination} at {s.Flight.DepartureTime:HH:mm}",
         FlightDelayed d => $"{Code(d.Flight)} delayed to {d.Flight.ExpectedDepartureTime:HH:mm}",
         FlightBoarding b => $"{Code(b.Flight)} boarding at gate {b.Flight.Gate}",
         FlightDeparted d => $"{Code(d.Flight)} departed at {d.Flight.ActualDepartureTime:HH:mm}",

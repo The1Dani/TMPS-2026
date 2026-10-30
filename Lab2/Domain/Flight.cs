@@ -7,6 +7,8 @@ public record Flight(
     DateTime DepartureTime,
     FlightStatus Status,
     TimeSpan Delay,
+    FlightType Type,
+    TimeSpan BoardingWindow,
     string? Gate = null,
     DateTime? ActualDepartureTime = null
 )

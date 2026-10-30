@@ -1,3 +1,4 @@
+using airport_manager.Domain.Ports;
 using airport_manager.Domain;
 
 namespace airport_manager.Services;
@@ -59,7 +60,6 @@ public class FlightService(IFlightRepository repo, GateAllocator gates, IEventSi
         if (flight.Gate != null) gates.Release(flight.Gate);
         repo.Update(flight);
         eventSink.Pub(new FlightCancelled(flight, now));
-        
     }
 
     public IReadOnlyCollection<Flight> GetActiveFlights()

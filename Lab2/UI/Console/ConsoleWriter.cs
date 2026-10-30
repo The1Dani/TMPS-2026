@@ -1,4 +1,4 @@
-namespace airport_manager.Domain.UI;
+namespace airport_manager.Domain.Ports.UI;
 
 public class ConsoleWriter() : IEventSub
 {

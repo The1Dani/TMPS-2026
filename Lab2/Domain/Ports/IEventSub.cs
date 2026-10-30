@@ -1,4 +1,4 @@
-namespace airport_manager.Domain;
+namespace airport_manager.Domain.Ports;
 
 public interface IEventSub
 {

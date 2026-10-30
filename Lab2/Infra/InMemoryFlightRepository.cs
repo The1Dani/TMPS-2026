@@ -1,5 +1,7 @@
-namespace airport_manager.Domain.Infra;
+using airport_manager.Domain.Ports;
+using airport_manager.Domain;
 
+namespace airport_manager.Infra;
 public class InMemoryFlightRepository : IFlightRepository
 {
     private readonly Dictionary<string, Flight> _store = new();
